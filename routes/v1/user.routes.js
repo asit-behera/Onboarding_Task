@@ -1,13 +1,9 @@
 const Router = require("express").Router();
 
-Router.post("/", (req, res) => {
-  res.status(200).json({ route: "User Add" });
-});
-Router.put("/", (req, res) => {
-  res.status(200).json({ route: "User Edit" });
-});
-Router.delete("/", (req, res) => {
-  res.status(200).json({ route: "User Delete" });
-});
+const userController = require("../../controllers").userController;
+
+Router.post("/", userController.addUser);
+Router.put("/", userController.editUser);
+Router.delete("/", userController.deleteUser);
 
 module.exports = Router;
