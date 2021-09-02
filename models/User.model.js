@@ -37,9 +37,10 @@ const User = sequelizeInstance.define(
 );
 
 User.associate = (models) => {
-  User.User.hasOne(models.Profile, {
+  User.hasOne(models.Profile, {
     foreignKey: "userId",
     onDelete: "cascade",
+    as: "Profiles",
   });
 };
 

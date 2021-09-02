@@ -40,21 +40,28 @@ app.get("/testInsert", async (request, response) => {
 });
 
 app.get("/users", async (req, res) => {
-  const users = await User.findAll({
-    attributes: {
-      exclude: ["password", "createdAt", "updatedAt"],
-    },
-  });
-  res.status(200).json(users);
+  try {
+    const users = await User.findAll({
+      //include: [{ model: Profile }],
+      attributes: {
+        exclude: ["password", "createdAt", "updatedAt"],
+      },
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send();
+  }
 });
 
 app.use("/api/v1", routes);
+app.use("/public", express.static("Uploads"));
 
 (async () => {
   try {
     await sequelizeInstance.authenticate();
     console.log("Database Connected successfully.");
-    await sequelizeInstance.sync({ force: true });
+    await sequelizeInstance.sync(/* { force: true } */);
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }
@@ -67,19 +74,20 @@ app.listen(port, (err) => {
   console.log(`Server started on : ${port}`);
 });
 
-/* {
+/*
+{
     "name": "Billu Barber",
     "avtar": "path",
-    "bio": "enjoying sunsets",
-    "userId": "c887913-5774-440b-86f8-1fe98bdccc9a"
-} */
-/*
+    "bio": "cudling with cats",
+    "userId": "1b3900ab-4c20-4430-b903-abb76cda7440"
+} 
+*/
 
+/*
 {
     "userId": "c887913-5774-440b-86f8-1fe98bdccc9a",
     "updateQueries": {
         "name": "Billu Rout"
     }
 }
-
 */

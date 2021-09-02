@@ -16,6 +16,12 @@ const Profile = sequelizeInstance.define(
       defaultValue: "dummyImage.jpg",
       allowNull: false,
     },
+    avtarLink: {
+      type: DataTypes.STRING,
+      // allowNull defaults to true
+      defaultValue: "/public/dummyImage.jpg",
+      allowNull: false,
+    },
     bio: {
       type: DataTypes.STRING,
       // allowNull defaults to true
@@ -38,7 +44,10 @@ const Profile = sequelizeInstance.define(
 );
 
 Profile.associate = (models) => {
-  Profile.belongsTo(models.User);
+  Profile.belongsTo(models.User, {
+    foreignKey: "userId",
+    onDelete: "cascade",
+  });
 };
 
 module.exports.Profile = Profile;

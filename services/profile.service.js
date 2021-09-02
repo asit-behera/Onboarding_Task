@@ -12,7 +12,8 @@ const userService = require("./user.service");
 
 const createProfile = async (profileData) => {
   try {
-    const profile = await Profile.create(profileData);
+    const { name, bio, userId } = profileData;
+    const profile = await Profile.create({ name, bio, userId });
     return {
       statusCode: "200",
       body: { status: "Profile Created successfully.", profile },
@@ -38,13 +39,17 @@ const createProfile = async (profileData) => {
  */
 const updateProfile = async (profileData) => {
   try {
-    const profile = await Profile.update(profileData.updateQueries, {
-      where: {
-        userId: profileData.userId,
-      },
-    });
+    const { name, bio } = profileData.updateQueries;
+    const affectedRows = await Profile.update(
+      { name, bio },
+      {
+        where: {
+          userId: profileData.userId,
+        },
+      }
+    );
     const status =
-      profile > 0 ? "Profile Updated successfully." : "Nothing to Updated";
+      affectedRows > 0 ? "Profile Updated successfully." : "Nothing to Updated";
     return {
       statusCode: "200",
       body: { status },
@@ -72,4 +77,28 @@ const deleteProfile = async (profileData) => {
   }
 };
 
-module.exports = { createProfile, updateProfile, deleteProfile };
+const updateAvtar = async (userId, fileName) => {
+  try {
+    const affectedRows = await Profile.update(
+      { avtar: fileName, avtarLink: "/public/" + fileName },
+      {
+        where: {
+          userId,
+        },
+      }
+    );
+    const status =
+      affectedRows > 0 ? "Profile Updated successfully." : "Nothing to Updated";
+    return {
+      statusCode: "200",
+      body: { status },
+    };
+  } catch (error) {
+    return {
+      statusCode: "400",
+      body: { status: "Unable to Update Profile." },
+    };
+  }
+};
+
+module.exports = { createProfile, updateProfile, deleteProfile, updateAvtar };
