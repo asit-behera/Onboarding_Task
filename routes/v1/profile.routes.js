@@ -1,6 +1,6 @@
 const Router = require("express").Router();
-const uploadMiddleware = require("../../config").uploadMiddleware;
 
+const uploadMiddleware = require("../../config").uploadMiddleware;
 const profileController = require("../../controllers").profileController;
 
 Router.post("/", profileController.createProfile);
