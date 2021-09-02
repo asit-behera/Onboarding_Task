@@ -6,6 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# image upload folder
+Uploads/
+
 # lock files - Not required for this project
 package-lock.json
 
