@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const { sequelizeInstance } = require("../config");
+//const Profile = require("./index").Profile;
 
 const User = sequelizeInstance.define(
   "User",
@@ -34,5 +35,12 @@ const User = sequelizeInstance.define(
     updatedAt: false, */
   }
 );
+
+User.associate = (models) => {
+  User.User.hasOne(models.Profile, {
+    foreignKey: "userId",
+    onDelete: "cascade",
+  });
+};
 
 module.exports.User = User;

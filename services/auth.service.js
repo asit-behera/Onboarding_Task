@@ -1,6 +1,6 @@
 const userService = require("../services").userService;
-/*
 
+/*
 try {
     const date = new Date().getMilliseconds();
     //const email = "test" + "_" + date + "@test.com";
@@ -22,8 +22,8 @@ try {
       error: err.errors.length,
     });
   }
-
 */
+
 const loginUser = async (userData) => {
   const data = await userService.findUserByEmail(userData.email);
   //console.log(data);

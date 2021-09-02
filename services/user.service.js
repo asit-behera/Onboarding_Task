@@ -26,4 +26,24 @@ const findUserByEmail = async (email) => {
   }
 };
 
-module.exports = { createUser, findUserByEmail };
+// Future assons
+const changePassword = () => {};
+
+const deleteUserById = async (userId) => {
+  try {
+    const user = await User.destroy({
+      where: {
+        userId,
+      },
+    });
+    console.log(user);
+    return {
+      error: false,
+      message: { status: "Account Deleted successfully." },
+    };
+  } catch (err) {
+    return { error: true, errors: err.errors };
+  }
+};
+
+module.exports = { createUser, findUserByEmail, deleteUserById };
