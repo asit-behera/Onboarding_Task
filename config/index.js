@@ -1,1 +1,2 @@
-module.exports = require("./database.config");
+module.exports.sequelizeInstance =
+  require("./database.config").sequelizeInstance;

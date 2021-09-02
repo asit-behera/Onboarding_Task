@@ -1,12 +1,12 @@
 const Router = require("express").Router();
 
-Router.post("/user", (req, res) => {
+Router.post("/", (req, res) => {
   res.status(200).json({ route: "User Add" });
 });
-Router.put("/user", (req, res) => {
+Router.put("/", (req, res) => {
   res.status(200).json({ route: "User Edit" });
 });
-Router.delete("/user", (req, res) => {
+Router.delete("/", (req, res) => {
   res.status(200).json({ route: "User Delete" });
 });
 
