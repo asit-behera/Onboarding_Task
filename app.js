@@ -10,7 +10,7 @@ const { sequelizeInstance } = require("./config");
 const app = express();
 app.use(express.json());
 
-app.get("/", async (request, response) => {
+app.get("/", (request, response) => {
   response.status(200).json({ app: "Onboarding Task", status: "running" });
 });
 
@@ -21,7 +21,7 @@ app.use("/public", express.static("Uploads"));
   try {
     await sequelizeInstance.authenticate();
     console.log("Database Connected successfully.");
-    await sequelizeInstance.sync(/* { force: true } */);
+    //await sequelizeInstance.sync(/* { force: true } */);
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }

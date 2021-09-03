@@ -15,12 +15,12 @@ Router.get("/testInsert", async (request, response) => {
       .status(200)
       .json({ app: "Onboarding Task", status: "running", user });
   } catch (err) {
-    //console.log(err);
+    console.log(err);
     response.status(200).json({
       app: "Onboarding Task",
       status: "running",
       //error: err.errors[0].message,
-      error: err.errors.length,
+      error: err,
     });
   }
 });

@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const { sequelizeInstance } = require("../config");
-//const Profile = require("./index").Profile;
+const hashingUtil = require("../utils").hashingUtil;
 
 const User = sequelizeInstance.define(
   "User",
@@ -36,11 +36,15 @@ const User = sequelizeInstance.define(
   }
 );
 
+User.beforeCreate(async (user /* , options */) => {
+  const hashedPassword = await hashingUtil.getHashed(user.password);
+  user.password = hashedPassword;
+});
+
 User.associate = (models) => {
   User.hasOne(models.Profile, {
     foreignKey: "userId",
     onDelete: "cascade",
-    as: "Profiles",
   });
 };
 

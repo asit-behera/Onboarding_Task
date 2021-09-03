@@ -1,4 +1,4 @@
 module.exports.sequelizeInstance =
   require("./database.config").sequelizeInstance;
 
-module.exports.uploadMiddleware = require("./multer.config").uploadMiddleware;
+module.exports.storageEngine = require("./multer.config").storageEngine;
