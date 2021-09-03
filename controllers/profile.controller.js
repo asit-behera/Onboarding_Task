@@ -2,20 +2,29 @@ const profileService = require("../services").profileService;
 
 const createProfile = async (req, res) => {
   //console.log(req.body);
-  const data = await profileService.createProfile(req.body);
+  const userData = {
+    userId: req.user.userId,
+    name: req.body.name,
+    bio: req.body.bio,
+  };
+  const data = await profileService.createProfile(userData);
   res.status(data.statusCode).json(data.body);
 };
 
 const updateProfile = async (req, res) => {
   //console.log(req.body);
-  const data = await profileService.updateProfile(req.body);
+  const userData = {
+    userId: req.user.userId,
+    updateQueries: req.body.updateQueries,
+  };
+  const data = await profileService.updateProfile(userData);
   res.status(data.statusCode).json(data.body);
 };
 
 const deleteProfile = async (req, res) => {
-  //console.log(req.body);
-  const data = await profileService.deleteProfile(req.body);
+  const data = await profileService.deleteProfile(req.user.userId);
   res.status(data.statusCode).json(data.body);
+  //res.sendStatus(200);
 };
 
 const updateProfilePicture = async (req, res) => {

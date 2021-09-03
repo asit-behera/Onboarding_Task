@@ -1,9 +1,9 @@
 const userService = require("../services").userService;
 const hashingUtil = require("../utils").hashingUtil;
+const tokenUtil = require("../utils").tokenUtil;
 
 const loginUser = async (userData) => {
   const data = await userService.findUserByEmail(userData.email);
-  //console.log(data);
   if (!data.error) {
     const isChecked = await hashingUtil.checkHash(
       userData.password,
@@ -11,9 +11,10 @@ const loginUser = async (userData) => {
     );
     if (isChecked) {
       const { userId, email } = data.user;
+      const token = tokenUtil.generateToken({ userId, email });
       return {
         statusCode: "200",
-        body: { status: "Login successful.", user: { userId, email } },
+        body: { status: "Login successful.", token },
       };
     } else {
       return {

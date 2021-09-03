@@ -2,18 +2,19 @@ const { Profile } = require("../models");
 const userService = require("./user.service");
 
 /*
- * {
- *     name: "Billu Barber",
- *     avtar: "path",
- *     bio: "enjoying sunsets",
- *     userId: ""
- * }
+ * Create Profile dummy data
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MjYwNmY4Mi0zMTJlLTQ0NzAtYjlhNy05MTAyMzkyN2FkMWUiLCJlbWFpbCI6InRlc3RfMjQ2QHRlc3QuY29tIiwiaWF0IjoxNjMwNjU1OTIwfQ.p--s-QRqjwzUtPJiEK6f7AJOhClcZN3c_UNSGqk6v0I",
+    "name": "Billu Barber",
+    "avtar": "path",
+    "bio": "enjoying sunsets",
+    "userId": "52606f82-312e-4470-b9a7-91023927ad1e"
+}
  */
 
-const createProfile = async (profileData) => {
+const createProfile = async (userDetails) => {
   try {
-    const { name, bio, userId } = profileData;
-    const profile = await Profile.create({ name, bio, userId });
+    const profile = await Profile.create(userDetails);
     return {
       statusCode: "200",
       body: { status: "Profile Created successfully.", profile },
@@ -27,7 +28,7 @@ const createProfile = async (profileData) => {
   }
 };
 
-/*
+/* *
  * {
  *     "userId": "",
  *     "updateQueries": {
@@ -37,14 +38,14 @@ const createProfile = async (profileData) => {
  *     }
  * }
  */
-const updateProfile = async (profileData) => {
+const updateProfile = async (userData) => {
   try {
-    const { name, bio } = profileData.updateQueries;
+    const { name, bio } = userData.updateQueries;
     const affectedRows = await Profile.update(
       { name, bio },
       {
         where: {
-          userId: profileData.userId,
+          userId: userData.userId,
         },
       }
     );
@@ -62,8 +63,8 @@ const updateProfile = async (profileData) => {
   }
 };
 
-const deleteProfile = async (profileData) => {
-  const result = await userService.deleteUserById(profileData.userId);
+const deleteProfile = async (userId) => {
+  const result = await userService.deleteUserById(userId);
   if (!result.error) {
     return {
       statusCode: "200",
