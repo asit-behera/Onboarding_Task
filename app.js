@@ -15,13 +15,13 @@ app.get("/", (request, response) => {
 });
 
 app.use("/api/v1", routes);
-app.use("/public", express.static("Uploads"));
+app.use("/image", express.static("Uploads"));
 
 (async () => {
   try {
     await sequelizeInstance.authenticate();
     console.log("Database Connected successfully.");
-    //await sequelizeInstance.sync(/* { force: true } */);
+    // await sequelizeInstance.sync(/* { force: true } */);
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }

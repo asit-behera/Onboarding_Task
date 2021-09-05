@@ -46,7 +46,6 @@ const Profile = sequelizeInstance.define(
 Profile.associate = (models) => {
   Profile.belongsTo(models.User, {
     foreignKey: "userId",
-    onDelete: "cascade",
   });
 };
 

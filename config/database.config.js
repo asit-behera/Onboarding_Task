@@ -6,6 +6,7 @@ const sequelizeInstance = new Sequelize(
   process.env.DB_PASSWORD,
   {
     logging: false,
+    // operatorsAliases: false, --> DEPRICATED
     host: process.env.DB_HOST,
     dialect: "mysql" /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
   }

@@ -15,14 +15,17 @@ const updateProfile = async (req, res) => {
   //console.log(req.body);
   const userData = {
     userId: req.user.userId,
-    updateQueries: req.body.updateQueries,
+    updateQueries: req.body,
   };
   const data = await profileService.updateProfile(userData);
   res.status(data.statusCode).json(data.body);
 };
 
 const deleteProfile = async (req, res) => {
-  const data = await profileService.deleteProfile(req.user.userId);
+  const userData = {
+    userId: req.user.userId,
+  };
+  const data = await profileService.deleteProfile(userData.userId);
   res.status(data.statusCode).json(data.body);
   //res.sendStatus(200);
 };
@@ -31,7 +34,7 @@ const updateProfilePicture = async (req, res) => {
   //console.log(req.body.userId);
   //console.log(req.body.userId, req.file.filename);
   const data = await profileService.updateAvtar(
-    req.body.userId,
+    req.user.userId,
     req.file.filename
   );
   res.status(data.statusCode).json(data.body);

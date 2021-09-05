@@ -2,8 +2,16 @@ const { User } = require("../models");
 
 const createUser = async (userData) => {
   try {
-    const user = await User.create(userData);
-    return { error: false, user };
+    const { avtar, avtarLink, name, bio } = await User.create(userData);
+    return {
+      error: false,
+      user: {
+        avtar,
+        avtarLink,
+        name,
+        bio,
+      },
+    };
   } catch (err) {
     return { error: true, errors: err.errors };
   }
