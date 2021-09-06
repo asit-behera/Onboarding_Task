@@ -33,3 +33,11 @@ app.listen(port, (err) => {
   }
   console.log(`Server started on : ${port}`);
 });
+/* server.on("error", (error) => {
+  if (error.code === "EADDRINUSE") {
+    console.log(
+      `Address localhost:${PORT} in use please retry when the port is available!`
+    );
+    server.close();
+  }
+}); */
