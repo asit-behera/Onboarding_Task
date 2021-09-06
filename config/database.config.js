@@ -1,5 +1,7 @@
 const { Sequelize } = require("sequelize");
 
+//console.log("meow");
+
 const sequelizeInstance = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,

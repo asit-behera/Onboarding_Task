@@ -41,11 +41,16 @@ User.beforeCreate(async (user /* , options */) => {
   user.password = hashedPassword;
 });
 
+//console.log("meow meow");
 User.associate = (models) => {
+  console.log("association");
   User.hasOne(models.Profile, {
     foreignKey: "userId",
     onDelete: "cascade",
   });
 };
+
+// console.log(Sequelize.models.Profile);
+// console.log(User.associations);
 
 module.exports.User = User;

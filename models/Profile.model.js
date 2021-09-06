@@ -43,10 +43,12 @@ const Profile = sequelizeInstance.define(
   }
 );
 
+//console.log("meow meow 1");
 Profile.associate = (models) => {
   Profile.belongsTo(models.User, {
     foreignKey: "userId",
   });
 };
+//console.log(Profile.associations);
 
 module.exports.Profile = Profile;

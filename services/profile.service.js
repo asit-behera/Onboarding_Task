@@ -10,20 +10,15 @@ const userService = require("./user.service");
 }
  */
 
-const createProfile = async (userDetails) => {
-  try {
-    const profile = await Profile.create(userDetails);
-    return {
-      statusCode: "200",
-      body: { status: "Profile Created successfully.", profile },
-    };
-  } catch (err) {
-    console.log(err.message);
-    return {
-      statusCode: "400",
-      body: { status: "Profile Already Exists." },
-    };
-  }
+const createProfile = (userDetails) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const profile = await Profile.create(userDetails);
+      resolve(profile);
+    } catch (err) {
+      reject(err);
+    }
+  });
 };
 
 /* *
@@ -37,73 +32,50 @@ const createProfile = async (userDetails) => {
  * }
  */
 const updateProfile = async (userData) => {
-  try {
-    const { name, bio } = userData.updateQueries;
-    const affectedRows = await Profile.update(
-      { name, bio },
-      {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updateQueries = userData.updateQueries;
+      const affectedRows = await Profile.update(updateQueries, {
         where: {
           userId: userData.userId,
         },
-      }
-    );
-    const status =
-      affectedRows > 0 ? "Profile Updated successfully." : "Nothing to Updated";
-    return {
-      statusCode: "200",
-      body: { status },
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      body: { status: "Unable to Update Profile." },
-    };
-  }
+      });
+      resolve(affectedRows);
+    } catch (err) {
+      reject(err);
+    }
+  });
 };
 
 const deleteProfile = async (userId) => {
-  const result = await userService.deleteUserById(userId);
-  if (!result.error) {
-    return {
-      statusCode: "200",
-      body: result.message,
-    };
-  } else {
-    return {
-      statusCode: "400",
-      body: "Unable to Delete Account",
-    };
-  }
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await userService.deleteUserById(userId);
+      resolve(result.message);
+    } catch (err) {
+      reject(err);
+    }
+  });
 };
 
-const updateAvtar = async (userId, fileName) => {
-  try {
-    const affectedRows = await Profile.update(
-      {
-        avtar: fileName,
-        avtarLink:
-          process.env.BASE_URL + process.env.UPLOAD_FOLDER_URL + fileName,
-      },
-      {
+const getProfileDetailsById = async (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await Profile.findOne({
         where: {
           userId,
         },
-      }
-    );
-    const status =
-      affectedRows > 0
-        ? "Profile Picture Updated successfully."
-        : "Unable to Updated";
-    return {
-      statusCode: "200",
-      body: { status },
-    };
-  } catch (error) {
-    return {
-      statusCode: "400",
-      body: { status: "Unable to Update Profile." },
-    };
-  }
+      });
+      resolve(result);
+    } catch (err) {
+      reject(err);
+    }
+  });
 };
 
-module.exports = { createProfile, updateProfile, deleteProfile, updateAvtar };
+module.exports = {
+  createProfile,
+  updateProfile,
+  deleteProfile,
+  getProfileDetailsById,
+};
