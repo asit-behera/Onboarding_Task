@@ -34,7 +34,7 @@ const updateProfile = async (req, res) => {
     const affectedRows = await profileService.updateProfile(userData);
     const status =
       affectedRows > 0 ? "Profile Updated successfully." : "Nothing to Updated";
-    res.status(200).json(status);
+    res.status(200).json({ status });
   } catch (error) {
     //console.log(error);
     res.status(400).json({ status: "Unable to Update Profile." });
@@ -67,7 +67,9 @@ const updateProfilePicture = async (req, res) => {
   } else {
     //console.log(false);
     try {
-      await fsPromises.unlink("Uploads/" + temp.avtar);
+      if (temp.avtar != "dummyImage.png") {
+        await fsPromises.unlink("Uploads/" + temp.avtar);
+      }
       const updateQueries = {
         avtar: fileName,
         avtarLink:
@@ -85,10 +87,13 @@ const updateProfilePicture = async (req, res) => {
             : "Nothing to Updated";
         res.status(200).json({ status });
       } catch (error) {
-        //console.log(error);
+        console.log("error1");
+        console.log(error);
         res.status(400).json({ status: "Unable to update profile." });
       }
     } catch (error) {
+      console.log("error2");
+      console.log(error);
       res.status(400).json({ status: "Unable to update profile." });
     }
   }

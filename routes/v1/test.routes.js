@@ -2,7 +2,7 @@
 const { User, Profile } = require("../../models");
 const Router = require("express").Router();
 
-Router.get("/testInsert", async (request, response) => {
+Router.get("/insert", async (request, response) => {
   try {
     const date = new Date().getMilliseconds();
     const email = "test" + "_" + date + "@test.com";
@@ -26,7 +26,7 @@ Router.get("/testInsert", async (request, response) => {
   }
 });
 
-Router.get("/users", async (req, res) => {
+Router.get("/allData", async (req, res) => {
   Promise.all([
     User.findAll({
       //include: [{ model: Profile }],
@@ -63,6 +63,35 @@ Router.get("/users", async (req, res) => {
       }
       //console.log(userList);
       res.status(200).json(userList);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(400).send();
+    });
+});
+
+Router.get("/users", async (req, res) => {
+  User.findAll({
+    //include: [{ model: Profile }],
+    attributes: {
+      exclude: ["password", "createdAt", "updatedAt"],
+    },
+  })
+    .then((users) => {
+      res.status(200).json(users);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(400).send();
+    });
+});
+
+Router.get("/profiles", async (req, res) => {
+  Profile.findAll({
+    //include: [{ model: Profile }],
+  })
+    .then((profiles) => {
+      res.status(200).json(profiles);
     })
     .catch((error) => {
       console.log(error);

@@ -13,13 +13,14 @@ const Profile = sequelizeInstance.define(
     avtar: {
       type: DataTypes.STRING,
       // allowNull defaults to true
-      defaultValue: "dummyImage.jpg",
+      defaultValue: "dummyImage.png",
       allowNull: false,
     },
     avtarLink: {
       type: DataTypes.STRING,
       // allowNull defaults to true
-      defaultValue: "/public/dummyImage.jpg",
+      defaultValue:
+        process.env.BASE_URL + process.env.UPLOAD_FOLDER_URL + "dummyImage.png",
       allowNull: false,
     },
     bio: {

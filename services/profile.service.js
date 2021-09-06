@@ -49,12 +49,25 @@ const updateProfile = async (userData) => {
 
 const deleteProfile = async (userId) => {
   return new Promise(async (resolve, reject) => {
-    try {
+    Promise.all([
+      userService.deleteUserById(userId),
+      Profile.destroy({
+        where: {
+          userId,
+        },
+      }),
+    ])
+      .then(([result1, result2]) => {
+        console.log(result1, result2);
+        resolve(result1.message);
+      })
+      .catch((err) => reject(err));
+    /* try {
       const result = await userService.deleteUserById(userId);
       resolve(result.message);
     } catch (err) {
       reject(err);
-    }
+    } */
   });
 };
 
