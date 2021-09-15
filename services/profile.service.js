@@ -1,4 +1,4 @@
-const { Profile } = require("../models");
+const { Profile } = require("../config").db;
 const userService = require("./user.service");
 
 /*

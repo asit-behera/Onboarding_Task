@@ -108,12 +108,3 @@ module.exports = Router;
     "userId": "1b3900ab-4c20-4430-b903-abb76cda7440"
 } 
 */
-
-/*
-{
-    "userId": "c887913-5774-440b-86f8-1fe98bdccc9a",
-    "updateQueries": {
-        "name": "Billu Rout"
-    }
-}
-*/

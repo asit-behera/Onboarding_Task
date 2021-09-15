@@ -5,7 +5,7 @@ const express = require("express");
 
 const routes = require("./routes/v1");
 
-const { sequelizeInstance } = require("./config");
+const { db } = require("./config");
 
 const app = express();
 app.use(express.json());
@@ -19,9 +19,9 @@ app.use("/images", express.static("Uploads"));
 
 (async () => {
   try {
-    await sequelizeInstance.authenticate();
+    await db.instance.authenticate();
     console.log("Database Connected successfully.");
-    //await sequelizeInstance.sync({ force: true });
+    await db.instance.sync({ force: true });
   } catch (error) {
     console.error(/* "Unable to connect to the database:",  */ error.message);
   }

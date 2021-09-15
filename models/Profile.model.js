@@ -1,55 +1,48 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const { sequelizeInstance } = require("../config");
-//const User = require("./index").User;
+module.exports = (dbInstance, Sequelize, DataTypes) => {
+  const Profile = dbInstance.define(
+    "Profile",
+    {
+      // Model attributes are defined here
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      avtar: {
+        type: DataTypes.STRING,
+        // allowNull defaults to true
+        defaultValue: "dummyImage.png",
+        allowNull: false,
+      },
+      avtarLink: {
+        type: DataTypes.STRING,
+        // allowNull defaults to true
+        defaultValue:
+          process.env.BASE_URL +
+          process.env.UPLOAD_FOLDER_URL +
+          "dummyImage.png",
+        allowNull: false,
+      },
+      bio: {
+        type: DataTypes.STRING,
+        // allowNull defaults to true
+        allowNull: true,
+      },
+      userId: {
+        type: DataTypes.UUID,
+        //defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        //unique: true,
+      },
+    },
+    {
+      //freezeTableName: true,
+      tableName: "Profiles",
+      timestamps: false,
+      /* createdAt: true,
+          updatedAt: false, */
+    }
+  );
+  Profile.removeAttribute("id");
 
-const Profile = sequelizeInstance.define(
-  "Profile",
-  {
-    // Model attributes are defined here
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    avtar: {
-      type: DataTypes.STRING,
-      // allowNull defaults to true
-      defaultValue: "dummyImage.png",
-      allowNull: false,
-    },
-    avtarLink: {
-      type: DataTypes.STRING,
-      // allowNull defaults to true
-      defaultValue:
-        process.env.BASE_URL + process.env.UPLOAD_FOLDER_URL + "dummyImage.png",
-      allowNull: false,
-    },
-    bio: {
-      type: DataTypes.STRING,
-      // allowNull defaults to true
-      allowNull: true,
-    },
-    userId: {
-      type: DataTypes.UUID,
-      //defaultValue: Sequelize.UUIDV4,
-      primaryKey: true,
-      unique: true,
-    },
-  },
-  {
-    //freezeTableName: true,
-    tableName: "Profiles",
-    timestamps: false,
-    /* createdAt: true,
-    updatedAt: false, */
-  }
-);
-
-//console.log("meow meow 1");
-Profile.associate = (models) => {
-  Profile.belongsTo(models.User, {
-    foreignKey: "userId",
-  });
+  return Profile;
 };
-//console.log(Profile.associations);
-
-module.exports.Profile = Profile;
