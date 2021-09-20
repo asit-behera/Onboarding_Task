@@ -21,7 +21,7 @@ app.use("/images", express.static("Uploads"));
   try {
     await db.instance.authenticate();
     console.log("Database Connected successfully.");
-    await db.instance.sync({ force: true });
+    //await db.instance.sync({ force: true });
   } catch (error) {
     console.error(/* "Unable to connect to the database:",  */ error.message);
   }

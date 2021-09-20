@@ -2,6 +2,13 @@ module.exports = (dbInstance, Sequelize, DataTypes) => {
   const Message = dbInstance.define(
     "Message",
     {
+      messageId: {
+        // * This can be used to delete and update the message
+        type: DataTypes.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        unique: true,
+      },
       chatGroupId: {
         type: DataTypes.UUID,
         //defaultValue: Sequelize.UUIDV4,

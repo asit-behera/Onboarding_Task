@@ -34,8 +34,24 @@ const findUserByEmail = async (email) => {
   }
 };
 
+const findUserByUserId = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await User.findOne({
+        where: { userId: userId },
+        attributes: {
+          exclude: ["password", "createdAt", "updatedAt"],
+        },
+      });
+      resolve(user);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
 // Future assons
-const changePassword = () => {};
+const updatePassword = () => {};
 
 const deleteUserById = async (userId) => {
   try {
@@ -54,4 +70,9 @@ const deleteUserById = async (userId) => {
   }
 };
 
-module.exports = { createUser, findUserByEmail, deleteUserById };
+module.exports = {
+  createUser,
+  findUserByEmail,
+  deleteUserById,
+  findUserByUserId,
+};

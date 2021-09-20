@@ -1,5 +1,5 @@
 //const { values } = require("sequelize/types/lib/operators");
-const { User, Profile } = require("../../models");
+const { User, Profile } = require("../../config").db;
 const Router = require("express").Router();
 
 Router.get("/insert", async (request, response) => {
@@ -27,47 +27,25 @@ Router.get("/insert", async (request, response) => {
 });
 
 Router.get("/allData", async (req, res) => {
-  Promise.all([
-    User.findAll({
-      //include: [{ model: Profile }],
+  try {
+    const userList = await User.findAll({
+      include: [
+        {
+          model: Profile,
+          attributes: {
+            exclude: ["userId"],
+          },
+        },
+      ],
       attributes: {
         exclude: ["password", "createdAt", "updatedAt"],
       },
-    }),
-    Profile.findAll(),
-  ])
-    .then(([users, profiles]) => {
-      const userList = [];
-      users.map((user) => {
-        userList.push(user.dataValues);
-      });
-      const tempProfile = [];
-      profiles.map((profile) => {
-        tempProfile.push(profile.dataValues);
-      });
-      profiles = tempProfile;
-      for (let index = 0; index < userList.length; index++) {
-        const element = userList[index];
-        const profile = profiles.find((profile) => {
-          return profile.userId == element.userId;
-        });
-        if (profile) {
-          const { name, avtar, avtarLink, bio } = profile;
-          userList[index].profileData = {
-            name,
-            avtar,
-            avtarLink,
-            bio,
-          };
-        } else userList[index].profileData = "";
-      }
-      //console.log(userList);
-      res.status(200).json(userList);
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(400).send();
     });
+    res.status(200).json(userList);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send();
+  }
 });
 
 Router.get("/users", async (req, res) => {
@@ -76,6 +54,7 @@ Router.get("/users", async (req, res) => {
     attributes: {
       exclude: ["password", "createdAt", "updatedAt"],
     },
+    //where:{userId:userId}
   })
     .then((users) => {
       res.status(200).json(users);

@@ -13,6 +13,8 @@ const instance = new Sequelize(
 );
 const db = {};
 
+db.op = Sequelize.Op;
+
 //db.Sequelize = Sequelize;
 db.instance = instance;
 
@@ -26,6 +28,8 @@ db.Message = models.Message(instance, Sequelize, DataTypes);
 
 // * Associations
 // ! USER -> PROFILE relationship
+// ?
+
 db.User.hasOne(db.Profile, {
   onDelete: "cascade",
   foreignKey: "userId",
